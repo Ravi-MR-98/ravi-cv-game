@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ravi Mukesh - Interactive CV</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/phaser@3.60.0/dist/phaser.min.js"></script>
+</head>
+<body>
+  <!-- Top Dashboard Section -->
+  <div class="dashboard-container" id="dashboard">
+    <header class="portfolio-header">
+      <div class="header-nameplate">
+        <h1 id="author-name">Ravi Mukesh</h1>
+        <p class="subtitle" id="recruiter-welcome">AI Transformation | Product Ownership | Enterprise Architecture</p>
+      </div>
+      <div class="header-meta">Antwerp, Belgium</div>
+    </header>
+
+    <div class="main-layout">
+      <!-- Game Area -->
+      <div class="game-column">
+        <div id="game-viewport">
+          <!-- Start Screen Overlay -->
+          <div id="start-screen-overlay" class="start-overlay">
+            <h2>Ravi's Career Journey</h2>
+            <p>Explore milestones and collect skills in this interactive resume game.</p>
+            <p class="controls-guide">Controls: <strong>Arrow Keys / WASD</strong> to Move, <strong>Space</strong> to Jump. <strong>[M]</strong> to Mute.</p>
+            <button id="start-game-btn" class="btn primary-btn pulse" style="margin-top: 1rem; width: auto; padding: 0.75rem 2rem;">▶ Start Journey</button>
+          </div>
+
+          <!-- Mobile Touch Control Overlays (Repositioned inside viewport) -->
+          <div class="mobile-controls-overlay" id="mobile-controls" style="display: none;">
+            <button class="ctrl-btn" id="btn-left" aria-label="Move Left">◀</button>
+            <button class="ctrl-btn" id="btn-right" aria-label="Move Right">▶</button>
+            <button class="ctrl-btn" id="btn-jump" aria-label="Jump">▲</button>
+          </div>
+        </div>
+
+        <button class="skip-btn" id="skip-to-cv" aria-label="Skip game and view full CV">Skip to Full CV →</button>
+      </div>
+
+      <!-- Dynamic Resume Sidebar -->
+      <aside class="sidebar-column">
+        <div class="card hud-card">
+          <h3>Chapter HUD</h3>
+          <div class="hud-stats">
+            <span>Score: <strong id="hud-score">0</strong></span>
+            <span>Skills: <strong id="hud-skills-count">0/6</strong></span>
+          </div>
+          <div style="font-size: 0.8rem; margin-top: 6px; color: var(--accent);">
+            Currently: <strong id="hud-active-chapter">Chapter 1: ISEG Lisbon</strong>
+          </div>
+        </div>
+
+        <div class="card stream-card">
+          <h3 class="card-title">CV Live Stream</h3>
+          <div id="stream-content" class="typewriter-text">
+            <p>Product Owner & transformation professional with 4+ years of experience delivering digital initiatives. Play the game to explore milestones, or scroll down for the full CV!</p>
+          </div>
+        </div>
+
+        <div class="card skills-card">
+          <h3>Collected Skills</h3>
+          <div class="skills-grid" id="skills-badge-container">
+            <span class="skill-badge locked" id="badge-python">Python</span>
+            <span class="skill-badge locked" id="badge-sql">SQL</span>
+            <span class="skill-badge locked" id="badge-aws">AWS</span>
+            <span class="skill-badge locked" id="badge-togaf">TOGAF</span>
+            <span class="skill-badge locked" id="badge-scrum">Agile/Scrum</span>
+            <span class="skill-badge locked" id="badge-power">Power Platform</span>
+          </div>
+        </div>
+
+        <div class="card actions-card">
+          <h3>Quick Actions</h3>
+          <div class="actions-grid">
+            <a href="Ravi_CV_07_2026.pdf" download="Ravi_Mukesh_CV.pdf" class="btn primary-btn" aria-label="Download CV as PDF">📄 PDF Resume</a>
+            <a href="https://linkedin.com/in/ravi-mr" target="_blank" class="btn secondary-btn" aria-label="Visit LinkedIn Profile">🔗 LinkedIn</a>
+            <a href="mailto:ravimr@hotmail.com" class="btn secondary-btn" aria-label="Email Ravi">✉️ Email Ravi</a>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </div>
+
+  <!-- Digital Business Card Popup (Replaces game canvas on end) -->
+  <div id="end-card-overlay" class="end-card-modal" style="display: none;">
+    <div class="end-card-content card">
+      <h2>Interactive Journey Complete!</h2>
+      <p>Thank you for exploring my background and skills.</p>
+      <div class="end-stats">
+        <div>Final Score: <strong id="end-score">0</strong></div>
+        <div>Skills Collected: <strong id="end-skills">0/6</strong></div>
+      </div>
+      <div class="cta-actions">
+        <a href="https://calendly.com/your-calendly" target="_blank" class="btn primary-btn pulse">📅 Schedule a Call with Ravi</a>
+        <a href="Ravi_CV_07_2026.pdf" download="Ravi_Mukesh_CV.pdf" class="btn secondary-btn">📄 Download PDF CV</a>
+        <a href="https://linkedin.com/in/ravi-mr" target="_blank" class="btn secondary-btn">🔗 Connect on LinkedIn</a>
+      </div>
+      <button class="btn secondary-btn" onclick="location.reload()" style="margin-top: 1.25rem; width: 100%;">🔄 Replay Journey</button>
+    </div>
+  </div>
+
+  <!-- Traditional CV Section below -->
+  <main class="traditional-cv-section" id="traditional-cv">
+    <section class="print-cv-container" style="padding: 2.5rem 1.5rem; max-width: 800px; margin: 2rem auto; background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 8px; box-sizing: border-box;">
+      <h2 style="border-bottom: 2px solid var(--accent); padding-bottom: 0.5rem; color: var(--text-primary); margin-top: 0; font-size: 1.6rem;">Ravi Mukesh</h2>
+      <p style="color: var(--accent); margin: -0.25rem 0 1.5rem 0; font-weight: 500;">AI Transformation | Product Ownership | Enterprise Architecture</p>
+
+      <h3 style="color: var(--text-primary); border-bottom: 1px solid var(--border-color); padding-bottom: 0.25rem; font-size: 1.1rem; text-transform: uppercase; margin-top: 1.5rem;">Professional Summary</h3>
+      <p style="color: var(--text-secondary); line-height: 1.6; font-size: 0.9rem;">Product Owner and transformation professional with 4+ years of experience delivering digital initiatives across consulting and corporate environments, including leading €1.6M+ in enterprise product rollouts. Passionate about AI transformation, data foundations, and governance frameworks.</p>
+
+      <h3 style="color: var(--text-primary); border-bottom: 1px solid var(--border-color); padding-bottom: 0.25rem; font-size: 1.1rem; text-transform: uppercase; margin-top: 1.5rem;">Professional Experience</h3>
+      
+      <div class="cv-job" style="margin-bottom: 1.5rem;">
+        <h4 style="margin: 0; color: var(--text-primary); font-size: 0.95rem;">DEME Group | Business Analyst & Product Owner | PMO</h4>
+        <p style="color: var(--accent); margin: 0.25rem 0; font-size: 0.8rem; font-weight: bold;">Antwerp, BE · Jan 2024 – Present</p>
+        <ul style="color: var(--text-secondary); padding-left: 1.25rem; font-size: 0.85rem; line-height: 1.5; margin: 4px 0 0 0;">
+          <li>Developed an enterprise AI adoption framework mapping a three-tier architecture (shared foundations, business capabilities, and use cases) to enable secure, compliant, and scalable AI development.</li>
+          <li>Lead end-to-end product ownership of a company-wide €1M site reporting platform, managing requirements, backlog prioritization, and cross-functional Agile delivery.</li>
+          <li>Led implementation of a Dynamics 365 contract change module used across 60 projects, streamlining governance and visibility over €1bn in potential variations.</li>
+        </ul>
+      </div>
+
+      <div class="cv-job" style="margin-bottom: 1.5rem;">
+        <h4 style="margin: 0; color: var(--text-primary); font-size: 0.95rem;">Deloitte Consulting | Business Consultant</h4>
+        <p style="color: var(--accent); margin: 0.25rem 0; font-size: 0.8rem; font-weight: bold;">Lisbon, PT · Sep 2021 – Jan 2024</p>
+        <ul style="color: var(--text-secondary); padding-left: 1.25rem; font-size: 0.85rem; line-height: 1.5; margin: 4px 0 0 0;">
+          <li>Mapped contractual requirements for a national gas utility and designed an optimized scheduling workflow, reducing schedule generation time by 15x.</li>
+          <li>Mapped data transformation processes and defined technical requirements for a high-growth startup, enabling the launch of four new product lines.</li>
+          <li>Supported the definition of a 3-year tech and workplace roadmap for a European dairy company, gaining C-level buy-in and aligning mid-to-long term operations.</li>
+        </ul>
+      </div>
+
+      <h3 style="color: var(--text-primary); border-bottom: 1px solid var(--border-color); padding-bottom: 0.25rem; font-size: 1.1rem; text-transform: uppercase; margin-top: 1.5rem;">Skills & Tools</h3>
+      <p style="color: var(--text-secondary); line-height: 1.6; font-size: 0.85rem; margin: 4px 0 0 0;">
+        <strong>AI & Architecture:</strong> Azure OpenAI, Copilot Studio, RAG Architectures, AI Governance & Evaluation, Enterprise Architecture (TOGAF), Agentic Workflow Design<br>
+        <strong>Technical & Data:</strong> Python, SQL, Power Platform (Apps/Automate/BI), Azure DevOps<br>
+        <strong>Business & Delivery:</strong> Product Ownership, Agile/Scrum, Stakeholder Management, Process Transformation
+      </p>
+
+      <h3 style="color: var(--text-primary); border-bottom: 1px solid var(--border-color); padding-bottom: 0.25rem; font-size: 1.1rem; text-transform: uppercase; margin-top: 1.5rem;">Education &amp; Credentials</h3>
+      
+      <div class="cv-education" style="margin-bottom: 1.25rem;">
+        <h4 style="margin: 0; color: var(--text-primary); font-size: 0.95rem;">MSc Finance</h4>
+        <p style="color: var(--accent); margin: 0.25rem 0; font-size: 0.8rem; font-weight: bold;">ISEG - Lisbon School of Economics &amp; Management · Graduation: 2021</p>
+      </div>
+
+      <div class="cv-education" style="margin-bottom: 1.25rem;">
+        <h4 style="margin: 0; color: var(--text-primary); font-size: 0.95rem;">BSc Economics</h4>
+        <p style="color: var(--accent); margin: 0.25rem 0; font-size: 0.8rem; font-weight: bold;">ISEG - Lisbon School of Economics &amp; Management · Graduation: 2019</p>
+        <p style="color: var(--text-secondary); margin: 4px 0 0 0; font-size: 0.85rem;">Vice President of the Debating Society.</p>
+      </div>
+
+      <div class="cv-education">
+        <h4 style="margin: 0; color: var(--text-primary); font-size: 0.95rem;">TOGAF® Certified Practitioner</h4>
+        <p style="color: var(--accent); margin: 0.25rem 0; font-size: 0.8rem; font-weight: bold;">The Open Group · 2025</p>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    document.getElementById('skip-to-cv').addEventListener('click', () => {
+      document.getElementById('traditional-cv').scrollIntoView({ behavior: 'smooth' });
+    });
+  </script>
+
+  <script src="game.js"></script>
+  <script>
+    // Personalization hook
+    const params = new URLSearchParams(window.location.search);
+    const recruiter = params.get('name');
+    if (recruiter) {
+      document.getElementById('recruiter-welcome').innerText = `Welcome, ${recruiter} — explore Ravi's career journey below`;
+    }
+
+    // Sidebar timelines
+    const timelineDb = {
+      1: {
+        title: "Education & Foundations",
+        subtitle: "ISEG Lisbon | 2021",
+        bullets: [
+          "BSc Economics (VP Debating Society) - Lisbon School of Economics & Management",
+          "MSc Finance Graduation - Developed core analysis and financial model capabilities"
+        ],
+        skills: ["python", "sql"]
+      },
+      2: {
+        title: "Deloitte Consulting",
+        subtitle: "Business Consultant | Lisbon, PT",
+        bullets: [
+          "Designed an optimized scheduling workflow for a national gas utility, reducing schedule generation time by 15x",
+          "Mapped data transformation processes and defined technical requirements for a high-growth startup, enabling the launch of four new product lines"
+        ],
+        skills: ["sql", "scrum"]
+      },
+      3: {
+        title: "DEME Group",
+        subtitle: "BA & Product Owner | Antwerp, BE",
+        bullets: [
+          "Developed an enterprise AI adoption framework mapping a three-tier architecture to enable secure, compliant, and scalable AI development",
+          "Lead end-to-end product ownership of a company-wide €1M site reporting platform",
+          "Led implementation of a Dynamics 365 contract change module used across 60 projects, streamlining visibility over €1bn in variations"
+        ],
+        skills: ["aws", "power", "togaf"]
+      }
+    };
+
+    let activeTypewriter = null;
+
+    function typewriterReveal(element, html, speed = 15) {
+      if (activeTypewriter) clearInterval(activeTypewriter);
+      element.innerHTML = '';
+      
+      let tempDiv = document.createElement('div');
+      tempDiv.innerHTML = html;
+      
+      const textNodes = [];
+      const getNodes = (node) => {
+        if (node.nodeType === Node.TEXT_NODE) {
+          textNodes.push(node);
+        } else {
+          for (let child of node.childNodes) {
+            getNodes(child);
+          }
+        }
+      };
+      getNodes(tempDiv);
+
+      const originalTexts = textNodes.map(n => {
+        let val = n.nodeValue;
+        n.nodeValue = '';
+        return { node: n, val: val };
+      });
+
+      while (tempDiv.firstChild) {
+        element.appendChild(tempDiv.firstChild);
+      }
+      
+      let nodeIdx = 0;
+      let charIdx = 0;
+
+      activeTypewriter = setInterval(() => {
+        if (nodeIdx >= originalTexts.length) {
+          clearInterval(activeTypewriter);
+          return;
+        }
+
+        const curr = originalTexts[nodeIdx];
+        curr.node.nodeValue += curr.val.charAt(charIdx);
+        charIdx++;
+
+        if (charIdx >= curr.val.length) {
+          nodeIdx++;
+          charIdx = 0;
+        }
+      }, speed);
+    }
+
+    window.addEventListener('cv-milestone', (e) => {
+      const data = timelineDb[e.detail.id];
+      if (!data) return;
+
+      const stream = document.getElementById('stream-content');
+      let bulletsHtml = data.bullets.map(b => `<li>${b}</li>`).join('');
+      let rawHtml = `
+        <h4 style="color: #f8fafc; margin: 0 0 4px 0;">${data.title}</h4>
+        <p style="color: #10b981; font-size: 0.75rem; margin: 0 0 8px 0;">${data.subtitle}</p>
+        <ul style="padding-left: 14px; font-size: 0.8rem; line-height: 1.5; color: #cbd5e1; margin: 0;">${bulletsHtml}</ul>
+      `;
+
+      typewriterReveal(stream, rawHtml, 15);
+    });
+
+    window.addEventListener('skill-collected', (e) => {
+      const badge = document.getElementById(`badge-${e.detail.id}`);
+      if (badge) {
+        badge.classList.remove('locked');
+        badge.classList.add('active');
+      }
+      const currentActive = document.querySelectorAll('.skill-badge.active').length;
+      document.getElementById('hud-skills-count').innerText = `${currentActive}/6`;
+    });
+
+    window.addEventListener('cv-challenge', (e) => {
+      const stream = document.getElementById('stream-content');
+      if (stream) {
+        stream.innerHTML += `<p style="color: #f87171; font-size: 0.75rem; margin-top: 6px; border-top: 1px dashed var(--border-color); padding-top: 4px; line-height: 1.4;">✔ Challenge: ${e.detail.desc}</p>`;
+      }
+    });
+
+    window.addEventListener('zone-changed', (e) => {
+      const el = document.getElementById('hud-active-chapter');
+      if (el) el.innerText = e.detail.name;
+    });
+
+    window.addEventListener('cv-complete', (e) => {
+      document.getElementById('end-score').innerText = e.detail.score;
+      const count = document.querySelectorAll('.skill-badge.active').length;
+      document.getElementById('end-skills').innerText = `${count}/6`;
+      document.getElementById('end-card-overlay').style.display = 'flex';
+      console.log('Journey completed successfully! Event mock beacon logged locally.');
+    });
+  </script>
+  <script src="verify.js"></script>
+  <noscript>
+    <div class="noscript-warning">JavaScript is disabled. Please view the full CV layout below.</div>
+  </noscript>
+</body>
+</html>

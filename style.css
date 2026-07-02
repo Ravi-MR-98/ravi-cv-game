@@ -73,6 +73,12 @@ body {
   position: relative;
 }
 
+#game-viewport canvas {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+}
+
 .start-overlay {
   position: absolute;
   top: 0;

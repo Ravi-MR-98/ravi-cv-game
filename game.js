@@ -3,10 +3,6 @@ const config = {
   width: 800,
   height: 533,
   parent: 'game-viewport',
-  scale: {
-    mode: Phaser.Scale.FIT,
-    autoCenter: Phaser.Scale.CENTER_BOTH
-  },
   physics: {
     default: 'arcade',
     arcade: {
